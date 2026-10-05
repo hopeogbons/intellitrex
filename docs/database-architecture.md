@@ -2,7 +2,7 @@
 
 ## Purpose and scope
 
-This document defines the proposed database setup for model configuration management. It complements [the implementation plan](./model-configuration-implementation-plan.md). Neither document means the database has already been implemented.
+This document defines the database setup for model configuration management. It complements [the implementation plan](./model-configuration-implementation-plan.md). The implementation now follows these boundaries; see [setup and operations](./model-settings-setup.md) for initialization and usage.
 
 The first release has exactly one application table: `model_configurations`. User accounts, authentication records, chat history, subscriptions, and portfolios are outside this database scope.
 
@@ -148,7 +148,7 @@ Display names are not identities and need not be unique. Encryption is for provi
 
 ## Connection lifecycle and SQLite settings
 
-Use a supported SQLite driver after checking the actual Node and deployment runtime. Keep the dependency behind the SQLite adapter and pin it through the lockfile.
+The implementation uses Node 24's built-in `node:sqlite` driver after verifying the local runtime. Keep it behind the SQLite adapter; the package engine constraint documents the supported Node release line.
 
 Recommended initial settings, subject to runtime verification:
 

@@ -4,7 +4,7 @@
 
 Allow the operator to add, save, test, edit, activate, and delete chatbot model configurations through the app. Switching between OpenAI and OpenRouter must require configuration changes rather than changes to chatbot code.
 
-SQLite will persist configurations. The chosen configuration will apply to the shared AI consultant. This document is a plan; implementation has not started.
+SQLite persists configurations. The chosen configuration applies to the shared AI consultant. This document records the implementation plan; see [setup and operations](./model-settings-setup.md) for the delivered feature and commands.
 
 ## Scope
 
@@ -35,11 +35,11 @@ The app has Next.js backend routes but no database. The current admin flag is co
 3. Read the relevant Next.js guides in `node_modules/next/dist/docs/` before writing route or UI code, particularly route handlers, cookies, caching, and server/client boundaries.
 4. Capture baseline build and lint results so existing failures are distinguished from new ones.
 
-The local Next.js documentation directory was absent when this plan was written; reading it after dependency setup is an implementation prerequisite.
+The local Next.js documentation directory was absent when this plan was written. Dependencies were restored and the relevant bundled guides were read before implementation.
 
 ### 2. Add SQLite persistence
 
-Use a small SQLite repository module with parameterized SQL. Select the driver after checking Node compatibility; prefer `better-sqlite3` if compatible with the deployment runtime. An ORM is unnecessary for one table.
+Use a small SQLite repository module with parameterized SQL. The checked Node 24 runtime supports the built-in `node:sqlite` driver, which was selected instead of a native dependency. An ORM is unnecessary for one table.
 
 Run database-backed routes in the Node.js runtime. Use a configured absolute database path outside public assets, enable WAL and a bounded busy timeout, and keep transactions short. Use one process-level connection where supported, including development hot-reload handling. Do not hold transactions open during provider requests.
 
